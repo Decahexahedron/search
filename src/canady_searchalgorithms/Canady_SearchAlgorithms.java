@@ -56,31 +56,32 @@ public class Canady_SearchAlgorithms {
             found = false;
 
             //binary start
-            min = 0;
-            max = array.length;
-            int range = max - min;
+            min = 0; //min is bottom value, can change
+            max = array.length; //max starts at array size and can change
+            int range; //use range to slice in half
+
             while (found == false) {
-                range = max - min;
-                currentGuess = range / 2 + min;
-                //currentGuess = (min + max) / 2;
-                if (currentGuess % 2 != 0) {
-                    currentGuess++;
-                }
+                range = max - min; //range is the size of search area
+                currentGuess = range / 2 + min; //guess is middle of range, also adjusted to correct window with +min
+
                 if (inputNum == array[currentGuess]) {
-                    found = true;
-                    foundNum = array[max - (range / 2)];
-                } else if (range == 1) {
-                    System.out.println("Sorry, didn't find " + inputNum);
-                } else if (currentGuess < inputNum) {
-                    min = currentGuess + 1;
-                } else if (currentGuess > inputNum) {
-                    max = currentGuess;
+                    found = true; //ends while
+                    foundNum = array[currentGuess]; //gives correct value
+                } if (currentGuess % 2 != 0) { //makes sure even -> whole number so no decimals
+                    currentGuess++;
+                } else if (array[currentGuess] < inputNum) {
+                    min = currentGuess + 1; //changes bottom of range to currentGuess (+1 since we already checked currentGuess)
+                } else if (array[currentGuess] > inputNum) {
+                    max = currentGuess - 1; //changes top of range to currentGuess (-1 since we already checked currentGuess)
+                }
+                if (range == 1 || range == 0) { //this is how it figures out it cant find anything
+                    break; //gets out of the while, because there wasnt another way out without changing range to true
                 }
             }
 
             if (found) {
                 System.out.println("The number " + inputNum
-                        + " can be found at " + foundNum);
+                        + " can be found at index " + foundNum);
             } else {
                 System.out.println("Sorry, " + " could not be found.");
             }
